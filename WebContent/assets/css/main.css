@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.wrap {
+	position: relative;
+	margin-left: 16%;
+	margin-right: 16%;
+	overflow: hidden;
+}
+
+.content_left {
+	float: left;
+	background: #CDCDCD;
+	width: 32.5%;
+	margin-bottom: -100000px;
+	padding-bottom: 100000px;
+}
+
+.content_right {
+	float: left;
+	background: #CDCDCD;
+	margin-left: 5px;
+	width: 32.5%;
+	margin-bottom: -100000px;
+	padding-bottom: 100000px;
+}

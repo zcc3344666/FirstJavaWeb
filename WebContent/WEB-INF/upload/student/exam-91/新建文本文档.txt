@@ -1,0 +1,298 @@
+<servlet>
+    <servlet-name>Add_student</servlet-name>
+    <servlet-class>exam.utils.teacherStudent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Add_student</servlet-name>
+    <url-pattern>/servlet/Add_student</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Delete_student</servlet-name>
+    <servlet-class>exam.utils.teacherStudent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Delete_student</servlet-name>
+    <url-pattern>/servlet/Delete_student</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Page_number</servlet-name>
+    <servlet-class>exam.utils.teacherStudent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Page_number</servlet-name>
+    <url-pattern>/servlet/Page_number</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Page_size</servlet-name>
+    <servlet-class>exam.utils.teacherStudent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Page_size</servlet-name>
+    <url-pattern>/servlet/Page_size</url-pattern>
+  </servlet-mapping>
+
+
+
+
+<filter>
+    <filter-name>Login_Filter</filter-name>
+    <filter-class>exam.utils.myFilter.Login_Filter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Login_Filter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
+
+
+<%
+	String examId = (String) session.getAttribute("examId_upload");
+	String s_number = request.getParameter("sno");
+	String s_name = request.getParameter("sname");
+	String s_class = request.getParameter("sclass");
+	String sqlSearch = "SELECT * FROM student WHERE  eid = '" + examId + "'";
+	if (s_number != null && s_number.length() > 0) {
+		sqlSearch += "and sno='" + s_number + "'";
+	}
+	if (s_name != null && s_name.length() > 0) {
+		sqlSearch += "and sname='" + s_name + "'";
+	}
+	if (s_class != null && s_class.length() > 0) {
+		sqlSearch += "and sclass='" + s_class + "'";
+	}
+
+	int count = 0;
+	StringBuffer sb = new StringBuffer();//StringBuffer是线程安全的，StringBuilder不是线程安全的
+	try {
+		sb.delete(0, sb.length());
+		sb.append("<table class='table table-striped table-bordered'>");
+		sb.append("<tr><th>");
+		sb.append("学号");
+		sb.append("</th><th>");
+		sb.append("姓名");
+		sb.append("</th><th>");
+		sb.append("班级");
+		sb.append("</th><th>");
+		sb.append("IP地址");
+		sb.append("</th></tr>");
+		ResultSet rs1 = DbUtil.executeQuery(sqlSearch);
+		//编历查询结果
+		while (rs1.next()) {
+			count++;
+			sb.append("<tr><td>");
+			sb.append(rs1.getString("sno"));
+			sb.append("</td><td>");
+			sb.append(rs1.getString("sname"));
+			sb.append("</td><td>");
+			sb.append(rs1.getString("sclass"));
+			sb.append("</td><td>");
+			if (rs1.getString("ipaddress") != "" && rs1.getString("ipaddress") != null) {
+				sb.append(rs1.getString("ipaddress"));
+			} else {
+				sb.append("该同学没有登录考试！");
+			}
+			sb.append("</td></tr>");
+
+		}
+		DbUtil.close();
+		sb.append("</table>");
+		if (count == 0) {
+			sb.delete(0, sb.length());
+			sb.append("查询出错，查询无果！");
+			sb.append("<br/>");
+			sb.append("请检查输入内容是否正确！");
+		}
+	} catch (SQLException e) {
+		sb.delete(0, sb.length());
+		sb.append("查询出错，查询无果！");
+		sb.append("<br/>");
+		sb.append("请检查输入内容是否正确！");
+	}
+	//将查询结果存入session名为search的属性中
+	session.setAttribute("search_student", sb);
+	//跳转至userAdmin.jsp页面
+	response.sendRedirect("../../../teacher/middle_student_message.jsp");
+%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<servlet>
+    <servlet-name>Admin_check</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin_check</servlet-name>
+    <url-pattern>/servlet/Admin_check</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Teacher_check</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Teacher_check</servlet-name>
+    <url-pattern>/servlet1/Teacher_check</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Student_check</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Student_check</servlet-name>
+    <url-pattern>/servlet2/Student_check</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Admin_change_pass</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin_change_pass</servlet-name>
+    <url-pattern>/servlet/Admin_change_pass</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Teacher_change_pass</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Teacher_change_pass</servlet-name>
+    <url-pattern>/servlet/Teacher_change_pass</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Admin_teacher</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin_teacher</servlet-name>
+    <url-pattern>/servlet/Admin_teacher</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Admin_os</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin_os</servlet-name>
+    <url-pattern>/servlet/Admin_os</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>TeacherStudentServlet</servlet-name>
+    <servlet-class>exam.utils.teacherStudent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeacherStudentServlet</servlet-name>
+    <url-pattern>/servlet/TeacherStudentServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Download_paper</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Download_paper</servlet-name>
+    <url-pattern>/servlet/Download_paper</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Upload_paper</servlet-name>
+    <servlet-class>exam.utils.myServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Upload_paper</servlet-name>
+    <url-pattern>/servlet/Upload_paper</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Exam_start</servlet-name>
+    <servlet-class>exam.utils.examServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exam_start</servlet-name>
+    <url-pattern>/servlet/Exam_start</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Exam_stop</servlet-name>
+    <servlet-class>exam.utils.examServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exam_stop</servlet-name>
+    <url-pattern>/servlet/Exam_stop</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Exam_file</servlet-name>
+    <servlet-class>exam.utils.examServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exam_file</servlet-name>
+    <url-pattern>/servlet/Exam_file</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Exam_clean</servlet-name>
+    <servlet-class>exam.utils.examServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exam_clean</servlet-name>
+    <url-pattern>/servlet/Exam_clean</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Exam_delete</servlet-name>
+    <servlet-class>exam.utils.examServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exam_delete</servlet-name>
+    <url-pattern>/servlet/Exam_delete</url-pattern>
+  </servlet-mapping>
+  
